@@ -11,6 +11,9 @@ import "dotenv/config";
 
 mongoose.connect(process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/kanbas");
 const app = express()
+app.use(
+  session(sessionOptions)
+);
 app.use(cors({
     credentials: true,
     origin: process.env.FRONTEND_URL,
@@ -29,10 +32,6 @@ if (process.env.NODE_ENV !== "development") {
     domain: process.env.HTTP_SERVER_DOMAIN,
   };
 }
-
-app.use(
-  session(sessionOptions)
-);
 app.use(express.json());
 UserRoutes(app);
 CourseRoutes(app);
