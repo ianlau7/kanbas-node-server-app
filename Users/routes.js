@@ -13,11 +13,15 @@ export default function UserRoutes(app) {
     const users = await dao.findAllUsers();
     res.json(users);
   };
-  const findUserById = async (req, res) => { };
+  const findUserById = async (req, res) => { 
+    const user = await dao.findUserById(req.params.userId);
+    res.json(user);
+  };
+
   const updateUser = async (req, res) => {
     const { userId } = req.params;
     const status = await dao.updateUser(userId, req.body);
-    currentUser = await dao.findUserById(userId);
+    const currentUser = await dao.findUserById(userId);
     res.json(status);
   };
   const signup = async (req, res) => {
@@ -41,7 +45,7 @@ export default function UserRoutes(app) {
       res.sendStatus(401);
     }
   };
-  const profile = async (req, res) => {
+  const profile = (req, res) => {
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
       res.sendStatus(401);
@@ -49,6 +53,7 @@ export default function UserRoutes(app) {
     }
     res.json(currentUser);
   };
+
   const signout = (req, res) => {
     req.session.destroy();
     res.sendStatus(200);
