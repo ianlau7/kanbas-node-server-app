@@ -11,6 +11,11 @@ import "dotenv/config";
 
 mongoose.connect(process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/kanbas");
 const app = express()
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+};
 app.use(
   session(sessionOptions)
 );
@@ -19,11 +24,6 @@ app.use(cors({
     origin: process.env.FRONTEND_URL,
   })
  );
-const sessionOptions = {
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-};
 if (process.env.NODE_ENV !== "development") {
   sessionOptions.proxy = true;
   sessionOptions.cookie = {
