@@ -24,14 +24,15 @@ if (process.env.NODE_ENV !== "development") {
     domain: process.env.HTTP_SERVER_DOMAIN,
   };
 }
-app.use(
-  session(sessionOptions)
-);
 app.use(cors({
     credentials: true,
     origin: process.env.FRONTEND_URL,
   })
  );
+ 
+app.use(
+  session(sessionOptions)
+);
 app.use(express.json());
 UserRoutes(app);
 CourseRoutes(app);
